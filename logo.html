@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qora Logo Preview</title>
+  
+  <!-- Google Fonts for Bricolage Grotesque & Newsreader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Newsreader:ital,opsz,wght@1,6..72,500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #14150f;
+      --emerald: #0c6b48;
+      --ivory: #f7f4ec;
+      --paper: #ffffff;
+      --line: rgba(20, 21, 15, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--ivory);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 24px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+
+    .preview-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 320px;
+      padding: 40px 24px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .preview-card.light {
+      background-color: var(--paper);
+    }
+
+    .preview-card.dark {
+      background-color: var(--ink);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Logo Component Styling */
+    .logo {
+      display: inline-flex;
+      align-items: baseline;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      text-decoration: none;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .logo .logo-mark {
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 28px;
+      color: var(--emerald);
+      line-height: 0.8;
+      margin-right: 0.5px;
+    }
+
+    .logo .logo-name {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 21px;
+      color: var(--ink);
+    }
+
+    /* Light Logo Variation (For dark backgrounds) */
+    .logo.logo-light .logo-mark,
+    .logo.logo-light .logo-name {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Standard Logo (Light Background) -->
+  <div class="preview-card light">
+    <a href="#" class="logo">
+      <span class="logo-mark">Q</span><span class="logo-name">ora</span>
+    </a>
+  </div>
+
+  <!-- Inverted Logo (Dark Background) -->
+  <div class="preview-card dark">
+    <a href="#" class="logo logo-light">
+      <span class="logo-mark">Q</span><span class="logo-name">ora</span>
+    </a>
+  </div>
+
+</body>
+</html>
