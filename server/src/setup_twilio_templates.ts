@@ -24,7 +24,7 @@ export async function createAllInteractiveTemplates() {
           { id: 'Services & Custom', item: 'Services & Custom', description: 'Consulting, bespoke design, and bookings' },
         ],
       },
-    },
+    } as any,
   });
   console.log('✅ Created Category Picker SID:', categoryPicker.sid);
 
@@ -48,7 +48,7 @@ export async function createAllInteractiveTemplates() {
           { id: 'Other Bank', item: 'Other Bank', description: 'Enter another commercial bank' },
         ],
       },
-    },
+    } as any,
   });
   console.log('✅ Created Bank Picker SID:', bankPicker.sid);
 
@@ -63,7 +63,7 @@ export async function createAllInteractiveTemplates() {
           { id: 'Skip', title: 'Skip' },
         ],
       },
-    },
+    } as any,
   });
   console.log('✅ Created Skip Logo SID:', logoPrompt.sid);
 
@@ -80,7 +80,7 @@ export async function createAllInteractiveTemplates() {
           { id: 'Create Order', title: 'Create Order' },
         ],
       },
-    },
+    } as any,
   });
   console.log('✅ Created Quick Actions SID:', quickActions.sid);
 
