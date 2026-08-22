@@ -516,7 +516,7 @@ const THEME = {
  * parallax pass for anything tagged data-parallax. Kept dependency-free so
  * it drops into any build without adding an animation library. */
 function useScrollExperience() {
-  const navRef = useRef(null);
+  const navRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const reduceMotion = window.matchMedia(
@@ -524,14 +524,19 @@ function useScrollExperience() {
     ).matches;
 
     // Section backdrop morph
-    const themedEls = Array.from(document.querySelectorAll("[data-theme]"));
+    const themedEls = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-theme]")
+    );
     const themeIO = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const theme = entry.target.dataset.theme;
-            document.documentElement.style.setProperty("--scroll-bg", theme);
-            document.documentElement.setAttribute("data-active-theme", theme);
+            const target = entry.target as HTMLElement;
+            const theme = target.dataset.theme;
+            if (theme) {
+              document.documentElement.style.setProperty("--scroll-bg", theme);
+              document.documentElement.setAttribute("data-active-theme", theme);
+            }
           }
         });
       },
@@ -540,12 +545,14 @@ function useScrollExperience() {
     themedEls.forEach(el => themeIO.observe(el));
 
     // Generic reveal-on-scroll
-    const revealEls = Array.from(document.querySelectorAll("[data-reveal]"));
+    const revealEls = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]")
+    );
     const revealIO = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-in");
+            (entry.target as HTMLElement).classList.add("is-in");
             revealIO.unobserve(entry.target);
           }
         });
@@ -560,9 +567,9 @@ function useScrollExperience() {
 
     // Nav elevation + light parallax, throttled to one rAF per frame
     const parallaxEls = Array.from(
-      document.querySelectorAll("[data-parallax]")
+      document.querySelectorAll<HTMLElement>("[data-parallax]")
     );
-    let rafId = null;
+    let rafId: number | null = null;
     const apply = () => {
       rafId = null;
       const nav = navRef.current;
@@ -571,7 +578,7 @@ function useScrollExperience() {
       if (!reduceMotion && window.innerWidth > 960) {
         const y = window.scrollY;
         parallaxEls.forEach(el => {
-          const speed = parseFloat(el.dataset.parallax) || 0.1;
+          const speed = parseFloat(el.dataset.parallax || "") || 0.1;
           const offset = Math.max(-46, Math.min(46, y * speed * -0.05));
           el.style.setProperty("--py", `${offset.toFixed(1)}px`);
         });
@@ -587,7 +594,7 @@ function useScrollExperience() {
       window.removeEventListener("scroll", onScroll);
       themeIO.disconnect();
       revealIO.disconnect();
-      if (rafId) cancelAnimationFrame(rafId);
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -595,7 +602,7 @@ function useScrollExperience() {
 }
 
 export default function QoraLanding() {
-  const stageRef = useRef(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const navRef = useScrollExperience();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
@@ -605,12 +612,12 @@ export default function QoraLanding() {
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
-    const cards = Array.from(el.querySelectorAll(".fan-card"));
+    const cards = Array.from(el.querySelectorAll<HTMLElement>(".fan-card"));
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    const settle = () => cards.forEach(c => c.classList.add("settled"));
+    const settle = () => cards.forEach((c: HTMLElement) => c.classList.add("settled"));
 
     if (reduce) {
       el.classList.add("in-view");
@@ -623,7 +630,7 @@ export default function QoraLanding() {
       pending -= 1;
       if (pending <= 0) settle();
     };
-    cards.forEach(c =>
+    cards.forEach((c: HTMLElement) =>
       c.addEventListener("animationend", onDone, { once: true })
     );
 
@@ -641,7 +648,7 @@ export default function QoraLanding() {
     io.observe(el);
     return () => {
       io.disconnect();
-      cards.forEach(c => c.removeEventListener("animationend", onDone));
+      cards.forEach((c: HTMLElement) => c.removeEventListener("animationend", onDone));
     };
   }, []);
 
@@ -928,7 +935,7 @@ export default function QoraLanding() {
             <div
               className="chip amber"
               data-reveal="scale"
-              style={{ "--rd": 0 }}
+              style={{ "--rd": 0 } as React.CSSProperties}
             >
               <small>SALES THIS MONTH</small>
               <strong>₦2,840,500</strong>
@@ -937,13 +944,17 @@ export default function QoraLanding() {
             <div
               className="chip emerald"
               data-reveal="scale"
-              style={{ "--rd": 1 }}
+              style={{ "--rd": 1 } as React.CSSProperties}
             >
               <small>NET PROFIT</small>
               <strong>₦1,140,200</strong>
               <span className="trend">▲ 11.4%</span>
             </div>
-            <div className="chip ink" data-reveal="scale" style={{ "--rd": 2 }}>
+            <div
+              className="chip ink"
+              data-reveal="scale"
+              style={{ "--rd": 2 } as React.CSSProperties}
+            >
               <small>ORDERS FULFILLED</small>
               <strong>428</strong>
               <span className="trend">▲ 6.2%</span>
@@ -995,7 +1006,7 @@ export default function QoraLanding() {
                 className="row-item"
                 key={num}
                 data-reveal="left"
-                style={{ "--rd": i }}
+                style={{ "--rd": i } as React.CSSProperties}
               >
                 <span className="num">{num}</span>
                 <div>
@@ -1179,7 +1190,7 @@ export default function QoraLanding() {
                 className="vcard"
                 key={v.id}
                 data-reveal="scale"
-                style={{ "--rd": i }}
+                style={{ "--rd": i } as React.CSSProperties}
               >
                 <div className="vcard-image-wrap">
                   <img
