@@ -320,6 +320,7 @@ export default function Dashboard() {
             <OverviewView
               orders={orders}
               storeName={storeName}
+              storeSlug="sultan"
               onNavigateToOrders={() => setActiveTab("Orders")}
             />
           )}

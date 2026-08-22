@@ -13,10 +13,12 @@ import {
 } from "recharts";
 import { WHATSAPP_BOT_URL } from "../../const";
 import { OrderItem, salesDataWeek, categoryData } from "./mockData";
+import GrowStorefrontCard from "./GrowStorefrontCard";
 
 interface OverviewViewProps {
   orders: OrderItem[];
   storeName?: string;
+  storeSlug?: string;
   onNavigateToOrders: () => void;
 }
 
@@ -114,6 +116,7 @@ const timeframeData: Record<
 export default function OverviewView({
   orders,
   storeName = "Sultan",
+  storeSlug = "sultan",
   onNavigateToOrders,
 }: OverviewViewProps) {
   const [timeframe, setTimeframe] = useState<TimeframeKey>("today");
@@ -388,6 +391,9 @@ export default function OverviewView({
           </table>
         </div>
       </div>
+
+      {/* GROW YOUR STOREFRONT */}
+      <GrowStorefrontCard storeName={storeName} storeSlug={storeSlug} />
     </>
   );
 }
