@@ -659,7 +659,7 @@ export default function QoraLanding() {
             <a href="#how">How it works</a>
             <a href="#stories">Stories</a>
             <a href="/stores">Stores</a>
-            {/* <a href="/blog">Blog</a> */}
+            <a href="/blog">Blog</a>
           </nav>
           <div className="nav-actions">
             <a className="login" href="/login">
@@ -1422,7 +1422,7 @@ export default function QoraLanding() {
               <div>
                 <p>Resources</p>
                 <a href="#product">Help</a>
-                {/* <a href="/blog">Blog</a> */}
+                <a href="/blog">Blog</a>
               </div>
             </div>
           </div>

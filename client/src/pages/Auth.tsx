@@ -176,7 +176,7 @@ export default function Auth() {
         </div>
 
         <div className="auth-footer-help">
-          Need help? <a href="#">Read merchant guides</a> or chat with support on WhatsApp.
+          Need help? <a href="/blog">Read merchant guides</a> or chat with support on WhatsApp.
         </div>
       </div>
     </div>
