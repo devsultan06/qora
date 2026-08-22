@@ -13,16 +13,15 @@ import {
 } from "recharts";
 import { WHATSAPP_BOT_URL } from "../../const";
 import { OrderItem, salesDataWeek, categoryData } from "./mockData";
-import GrowStorefrontCard from "./GrowStorefrontCard";
 
 interface OverviewViewProps {
   orders: OrderItem[];
   storeName?: string;
-  storeSlug?: string;
   onNavigateToOrders: () => void;
 }
 
-type TimeframeKey = "today" | "yesterday" | "this_week" | "this_month" | "last_30_days";
+type TimeframeKey =
+  "today" | "yesterday" | "this_week" | "this_month" | "last_30_days";
 
 function getDynamicGreeting(): string {
   const hour = new Date().getHours();
@@ -116,7 +115,6 @@ const timeframeData: Record<
 export default function OverviewView({
   orders,
   storeName = "Sultan",
-  storeSlug = "sultan",
   onNavigateToOrders,
 }: OverviewViewProps) {
   const [timeframe, setTimeframe] = useState<TimeframeKey>("today");
@@ -129,7 +127,9 @@ export default function OverviewView({
       <div className="dash-greeting-row">
         <div>
           <p className="eyebrow">{current.dateLabel}</p>
-          <h1>{greeting}, {storeName}.</h1>
+          <h1>
+            {greeting}, {storeName}.
+          </h1>
           <p className="greeting-desc">Your commerce activity at a glance.</p>
         </div>
 
@@ -170,10 +170,10 @@ export default function OverviewView({
             {timeframe === "today"
               ? "Today's Revenue"
               : timeframe === "yesterday"
-              ? "Yesterday's Revenue"
-              : timeframe === "this_week"
-              ? "Weekly Revenue"
-              : "Total Revenue"}
+                ? "Yesterday's Revenue"
+                : timeframe === "this_week"
+                  ? "Weekly Revenue"
+                  : "Total Revenue"}
           </span>
           <strong className="tile-number">{current.revenue}</strong>
           <span className="tile-note positive">{current.revenueNote}</span>
@@ -184,8 +184,8 @@ export default function OverviewView({
             {timeframe === "today"
               ? "Orders Today"
               : timeframe === "yesterday"
-              ? "Orders Yesterday"
-              : "Total Orders"}
+                ? "Orders Yesterday"
+                : "Total Orders"}
           </span>
           <strong className="tile-number">{current.orders}</strong>
           <span className="tile-note">{current.ordersNote}</span>
@@ -239,12 +239,20 @@ export default function OverviewView({
                   dataKey="day"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#6a6c5f", fontSize: 12, fontFamily: "DM Mono" }}
+                  tick={{
+                    fill: "#6a6c5f",
+                    fontSize: 12,
+                    fontFamily: "DM Mono",
+                  }}
                 />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#6a6c5f", fontSize: 11, fontFamily: "DM Mono" }}
+                  tick={{
+                    fill: "#6a6c5f",
+                    fontSize: 11,
+                    fontFamily: "DM Mono",
+                  }}
                   tickFormatter={v => `₦${v / 1000}k`}
                 />
                 <Tooltip
@@ -297,12 +305,20 @@ export default function OverviewView({
                   dataKey="name"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#6a6c5f", fontSize: 11, fontFamily: "DM Mono" }}
+                  tick={{
+                    fill: "#6a6c5f",
+                    fontSize: 11,
+                    fontFamily: "DM Mono",
+                  }}
                 />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#6a6c5f", fontSize: 10, fontFamily: "DM Mono" }}
+                  tick={{
+                    fill: "#6a6c5f",
+                    fontSize: 10,
+                    fontFamily: "DM Mono",
+                  }}
                   tickFormatter={v => `₦${v / 1000}k`}
                 />
                 <Tooltip
@@ -391,9 +407,6 @@ export default function OverviewView({
           </table>
         </div>
       </div>
-
-      {/* GROW YOUR STOREFRONT */}
-      <GrowStorefrontCard storeName={storeName} storeSlug={storeSlug} />
     </>
   );
 }

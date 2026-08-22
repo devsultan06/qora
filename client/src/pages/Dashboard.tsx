@@ -30,6 +30,7 @@ import {
   ReceiptText,
   Search,
   Settings,
+  Share2,
   ShoppingBag,
   Store,
   TrendingUp,
@@ -59,6 +60,7 @@ import ReportsView from "./dashboard/ReportsView";
 import WalletView from "./dashboard/WalletView";
 import SettingsView from "./dashboard/SettingsView";
 import AddProductModal from "./dashboard/AddProductModal";
+import GrowStorefrontModal from "./dashboard/GrowStorefrontModal";
 
 // Standalone Qora Logo (No enclosing green box)
 function QoraLogo() {
@@ -92,6 +94,7 @@ export default function Dashboard() {
   const [copiedLink, setCopiedLink] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showAddProductModal, setShowAddProductModal] = useState(false);
+  const [showGrowModal, setShowGrowModal] = useState(false);
 
   // New product state
   const [newName, setNewName] = useState("");
@@ -295,11 +298,11 @@ export default function Dashboard() {
 
             <button
               type="button"
-              className={`header-btn-share ${copiedLink ? "copied" : ""}`}
-              onClick={handleCopyLink}
+              className="header-btn-share"
+              onClick={() => setShowGrowModal(true)}
             >
-              {copiedLink ? <Check size={14} /> : <Copy size={14} />}
-              <span>{copiedLink ? "Copied!" : "Copy Store Link"}</span>
+              <Share2 size={13} />
+              <span>Grow Storefront</span>
             </button>
 
             <a
@@ -320,7 +323,7 @@ export default function Dashboard() {
             <OverviewView
               orders={orders}
               storeName={storeName}
-              storeSlug="sultan"
+              // storeSlug="sultan"
               onNavigateToOrders={() => setActiveTab("Orders")}
             />
           )}
@@ -393,6 +396,14 @@ export default function Dashboard() {
         setNewStock={setNewStock}
         newCategory={newCategory}
         setNewCategory={setNewCategory}
+      />
+
+      {/* GROW YOUR STOREFRONT MODAL */}
+      <GrowStorefrontModal
+        isOpen={showGrowModal}
+        onClose={() => setShowGrowModal(false)}
+        storeName={storeName}
+        storeSlug="sultan"
       />
     </div>
   );
