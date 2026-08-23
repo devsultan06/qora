@@ -25,12 +25,14 @@ import {
   ChevronDown,
   CircleDollarSign,
   Link2,
+  Menu,
   MessageCircle,
   PackageCheck,
   Search,
   Send,
   ShoppingBag,
   Sparkles,
+  X,
 } from "lucide-react";
 
 /** Small hand-drawn icon set for the hero card stack — kept as inline SVG
@@ -605,6 +607,7 @@ export default function QoraLanding() {
   const stageRef = useRef<HTMLDivElement | null>(null);
   const navRef = useScrollExperience();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Hero card entrance choreography — flies the fanned stack in once, then
   // hands each card off to a "settled" state so :hover transforms aren't
@@ -680,8 +683,68 @@ export default function QoraLanding() {
             >
               Start selling free
             </a>
+            <button
+              type="button"
+              className="nav-mobile-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
+
+        {/* MOBILE NAVIGATION DRAWER */}
+        {mobileMenuOpen && (
+          <div
+            className="mobile-nav-backdrop"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <div
+              className="mobile-nav-card"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="mobile-nav-links">
+                <a href="#product" onClick={() => setMobileMenuOpen(false)}>
+                  Product
+                </a>
+                <a href="#how" onClick={() => setMobileMenuOpen(false)}>
+                  How it works
+                </a>
+                <a href="#stories" onClick={() => setMobileMenuOpen(false)}>
+                  Stories
+                </a>
+                <a href="/stores" onClick={() => setMobileMenuOpen(false)}>
+                  Stores Directory
+                </a>
+                <a href="/blog" onClick={() => setMobileMenuOpen(false)}>
+                  Blog &amp; Guides
+                </a>
+              </div>
+
+              <div className="mobile-nav-divider" />
+
+              <div className="mobile-nav-actions">
+                <a
+                  href="/login"
+                  className="mobile-nav-btn-login"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Merchant Log in
+                </a>
+                <a
+                  href={WHATSAPP_BOT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary mobile-nav-btn-cta"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Start selling free <ArrowRight size={16} />
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* HERO */}
