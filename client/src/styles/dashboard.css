@@ -1094,29 +1094,112 @@
   .dash-clean-sidebar {
     position: fixed;
     inset: 0 auto 0 0;
+    width: 280px;
+    z-index: 1000;
     transform: translateX(-100%);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 50px rgba(20, 21, 15, 0.25);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .dash-clean-sidebar.open {
     transform: translateX(0);
   }
   .sidebar-close-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    cursor: pointer !important;
   }
   .dash-menu-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    cursor: pointer !important;
+    flex-shrink: 0;
+  }
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 21, 15, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999;
+    animation: sidebarBackdropFade 0.2s ease-out;
+  }
+  @keyframes sidebarBackdropFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .dash-top-header {
+    height: 58px;
+    padding: 0 14px;
+    gap: 8px;
+  }
+  .header-left {
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+  }
+  .crumb-sub,
+  .crumb-divider {
+    display: none;
+  }
+  .crumb-curr {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header-right {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .header-search {
+    display: none;
+  }
+  .header-btn-share,
+  .header-btn-view {
+    padding: 7px 10px;
+    font-size: 12px;
+    gap: 5px;
+    border-radius: 8px;
   }
   .dash-tiles-row {
     grid-template-columns: 1fr;
   }
   .dash-workspace-body {
-    padding: 20px 16px 40px;
-  }
-  .dash-top-header {
-    padding: 0 16px;
+    padding: 16px 14px 40px;
   }
   .form-split {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .dash-top-header {
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .header-btn-share .btn-label-text,
+  .header-btn-view .btn-label-text {
+    display: none;
+  }
+  .header-btn-share,
+  .header-btn-view {
+    padding: 8px 10px;
+    border-radius: 8px;
+    gap: 0;
   }
 }
 
