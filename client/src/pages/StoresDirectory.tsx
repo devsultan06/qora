@@ -32,6 +32,49 @@ const CATEGORIES = [
   "Services & Custom",
 ];
 
+const sampleStores: StoreItem[] = [
+  {
+    id: "sultan-1",
+    storeName: "Sultan Store",
+    slug: "sultan",
+    category: "Fashion & Apparel",
+    location: "Lagos, Nigeria",
+    description: "Premium handcrafted minimalist apparel, sneakers, and accessories.",
+    currencySymbol: "₦",
+    _count: { products: 6 },
+  },
+  {
+    id: "amara-2",
+    storeName: "Amara's Closet",
+    slug: "amara",
+    category: "Fashion & Apparel",
+    location: "Abuja, Nigeria",
+    description: "Curated contemporary womenswear and statement pieces for every occasion.",
+    currencySymbol: "₦",
+    _count: { products: 12 },
+  },
+  {
+    id: "lekki-3",
+    storeName: "Lekki Gourmet Treats",
+    slug: "lekki-gourmet",
+    category: "Food & Dining",
+    location: "Lekki Phase 1, Lagos",
+    description: "Fresh artisan pastries, sourdough bread, and specialty coffee beans.",
+    currencySymbol: "₦",
+    _count: { products: 8 },
+  },
+  {
+    id: "aura-4",
+    storeName: "Aura Skincare Lab",
+    slug: "aura-skin",
+    category: "Beauty & Cosmetics",
+    location: "Port Harcourt, Nigeria",
+    description: "Clean botanical skincare formulated for glowing melanin-rich skin.",
+    currencySymbol: "₦",
+    _count: { products: 9 },
+  },
+];
+
 function QoraLogo() {
   return (
     <a href="/" className="logo" aria-label="Qora homepage">
@@ -42,7 +85,7 @@ function QoraLogo() {
 }
 
 export default function StoresDirectory() {
-  const [stores, setStores] = useState<StoreItem[]>([]);
+  const [stores, setStores] = useState<StoreItem[]>(sampleStores);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -51,10 +94,10 @@ export default function StoresDirectory() {
     async function fetchStores() {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:3008/api/v1/storefront");
-        if (res.ok) {
+        const res = await fetch("/api/v1/storefront").catch(() => null);
+        if (res && res.ok) {
           const data = await res.json();
-          if (data.success && data.stores) {
+          if (data.success && data.stores && data.stores.length > 0) {
             setStores(data.stores);
           }
         }
