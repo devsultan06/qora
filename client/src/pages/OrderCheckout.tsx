@@ -59,7 +59,7 @@ export default function OrderCheckout() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch(`http://localhost:3008/api/v1/payments/order/${orderNumber}`);
+        const res = await fetch(`/api/v1/payments/order/${orderNumber}`);
         if (!res.ok) {
           throw new Error("Order not found or invalid link.");
         }
@@ -86,7 +86,7 @@ export default function OrderCheckout() {
     setOnlinePaying(true);
 
     try {
-      const payRes = await fetch("http://localhost:3008/api/v1/payments/initialize", {
+      const payRes = await fetch("/api/v1/payments/initialize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -139,7 +139,7 @@ export default function OrderCheckout() {
     setSubmittingReceipt(true);
 
     try {
-      const res = await fetch(`http://localhost:3008/api/v1/storefront/${order?.merchant?.slug}/orders`, {
+      const res = await fetch(`/api/v1/storefront/${order?.merchant?.slug}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
