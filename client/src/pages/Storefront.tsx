@@ -55,12 +55,52 @@ const defaultProducts: Product[] = [
   {
     id: 2,
     name: "Classic Canvas Tote Bag",
-    category: "Bags",
+    category: "Accessories",
     price: 32000,
     stock: 8,
     desc: "Heavyweight organic canvas bag with reinforced leather shoulder straps.",
     image:
       "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&h=450&q=80",
+  },
+  {
+    id: 3,
+    name: "Minimalist Linen Overshirt",
+    category: "Apparel",
+    price: 28500,
+    stock: 15,
+    desc: "Breathable pure linen overshirt with mother-of-pearl buttons.",
+    image:
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=600&h=450&q=80",
+  },
+  {
+    id: 4,
+    name: "Leather Minimalist Slides",
+    category: "Footwear",
+    price: 35000,
+    stock: 20,
+    desc: "Handcrafted full-grain leather slides with arch support.",
+    image:
+      "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?auto=format&fit=crop&w=600&h=450&q=80",
+  },
+  {
+    id: 5,
+    name: "Ceramic Matte Coffee Tumbler",
+    category: "Accessories",
+    price: 18000,
+    stock: 25,
+    desc: "Double-walled ceramic insulated tumbler with leakproof lid.",
+    image:
+      "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&h=450&q=80",
+  },
+  {
+    id: 6,
+    name: "Vintage Distressed Denim Cap",
+    category: "Apparel",
+    price: 14000,
+    stock: 30,
+    desc: "100% washed cotton denim 6-panel cap with brass buckle.",
+    image:
+      "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=600&h=450&q=80",
   },
 ];
 
@@ -68,14 +108,24 @@ const naira = (n: number) => `₦${n.toLocaleString()}`;
 
 export default function Storefront() {
   const params = useParams<{ slug?: string }>();
-  const currentSlug = params.slug || "sultan-store";
+  const currentSlug = params.slug || "sultan";
 
   const [storeMeta, setStoreMeta] = useState<StoreMeta>({
     storeName: "Sultan Store",
-    category: "Food & Dining",
+    category: "Apparel & Lifestyle",
+    location: "Lagos, Nigeria",
+    deliveryZones: [
+      { area: "Lagos Mainland", fee: 2000 },
+      { area: "Lagos Island", fee: 3500 },
+      { area: "Nationwide (Interstate)", fee: 6000 },
+    ],
+    phone: "+234 800 000 0000",
+    bankName: "GTBank",
+    accountNumber: "0123456789",
+    accountName: "SULTAN ENTERPRISE",
     currencySymbol: "₦",
   });
-  const [productList, setProductList] = useState<Product[]>([]);
+  const [productList, setProductList] = useState<Product[]>(defaultProducts);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
@@ -94,20 +144,24 @@ export default function Storefront() {
       try {
         setLoading(true);
         setNotFound(false);
-        const res = await fetch(`http://localhost:3008/api/v1/storefront/${currentSlug}`);
-        if (res.ok) {
+        const res = await fetch(`/api/v1/storefront/${currentSlug}`).catch(() => null);
+        if (res && res.ok) {
           const data = await res.json();
           if (data.success && data.store) {
             setStoreMeta({
-              storeName: data.store.storeName || "My Store",
-              category: data.store.category || "Retail",
-              location: data.store.location,
-              deliveryZones: data.store.deliveryZones,
+              storeName: data.store.storeName || "Sultan Store",
+              category: data.store.category || "Apparel & Lifestyle",
+              location: data.store.location || "Lagos, Nigeria",
+              deliveryZones: data.store.deliveryZones || [
+                { area: "Lagos Mainland", fee: 2000 },
+                { area: "Lagos Island", fee: 3500 },
+                { area: "Nationwide (Interstate)", fee: 6000 },
+              ],
               logoUrl: data.store.logoUrl,
-              phone: data.store.phone,
-              bankName: data.store.bankName,
-              accountNumber: data.store.accountNumber,
-              accountName: data.store.accountName,
+              phone: data.store.phone || "+234 800 000 0000",
+              bankName: data.store.bankName || "GTBank",
+              accountNumber: data.store.accountNumber || "0123456789",
+              accountName: data.store.accountName || "SULTAN ENTERPRISE",
               currencySymbol: data.store.currencySymbol || "₦",
             });
 
@@ -125,15 +179,41 @@ export default function Storefront() {
               }));
               setProductList(mapped);
             } else {
-              setProductList([]);
+              setProductList(defaultProducts);
             }
             return;
           }
         }
-        setNotFound(true);
+
+        // Fallback for standalone web preview / demo stores
+        const displayName = currentSlug === "sultan" || currentSlug === "sultan-store"
+          ? "Sultan Store"
+          : `${currentSlug.charAt(0).toUpperCase() + currentSlug.slice(1)} Store`;
+
+        setStoreMeta({
+          storeName: displayName,
+          category: "Apparel & Lifestyle",
+          location: "Lagos, Nigeria",
+          deliveryZones: [
+            { area: "Lagos Mainland", fee: 2000 },
+            { area: "Lagos Island", fee: 3500 },
+            { area: "Nationwide (Interstate)", fee: 6000 },
+          ],
+          phone: "+234 800 000 0000",
+          bankName: "GTBank",
+          accountNumber: "0123456789",
+          accountName: "SULTAN ENTERPRISE",
+          currencySymbol: "₦",
+        });
+        setProductList(defaultProducts);
       } catch (e) {
         console.error("Store fetch error:", e);
-        setNotFound(true);
+        setStoreMeta({
+          storeName: "Sultan Store",
+          category: "Apparel & Lifestyle",
+          currencySymbol: "₦",
+        });
+        setProductList(defaultProducts);
       } finally {
         setLoading(false);
       }
@@ -212,7 +292,7 @@ export default function Storefront() {
     setOrdering(true);
 
     try {
-      const res = await fetch(`http://localhost:3008/api/v1/storefront/${currentSlug}/orders`, {
+      const res = await fetch(`/api/v1/storefront/${currentSlug}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -293,7 +373,7 @@ export default function Storefront() {
 
     try {
       // 1. Create tracked retail order in DB
-      const orderRes = await fetch(`http://localhost:3008/api/v1/storefront/${currentSlug}/orders`, {
+      const orderRes = await fetch(`/api/v1/storefront/${currentSlug}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -317,7 +397,7 @@ export default function Storefront() {
       const orderData = await orderRes.json();
 
       // 2. Initialize Monnify transaction
-      const payRes = await fetch('http://localhost:3008/api/v1/payments/initialize', {
+      const payRes = await fetch('/api/v1/payments/initialize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -404,7 +484,7 @@ export default function Storefront() {
     setOrdering(true);
 
     try {
-      const res = await fetch(`http://localhost:3008/api/v1/storefront/${currentSlug}/orders`, {
+      const res = await fetch(`/api/v1/storefront/${currentSlug}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
