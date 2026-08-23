@@ -265,6 +265,15 @@ export default function Dashboard() {
         </div>
       </aside>
 
+      {/* MOBILE SIDEBAR BACKDROP */}
+      {menuOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* MAIN WORKSPACE */}
       <div className="dash-main-area">
         {/* TOPBAR */}
@@ -276,10 +285,10 @@ export default function Dashboard() {
               onClick={() => setMenuOpen(true)}
               aria-label="Open navigation"
             >
-              <Menu size={20} />
+              <Menu size={18} />
             </button>
             <div className="header-crumb">
-              <span className="crumb-sub">Sultan Store</span>
+              <span className="crumb-sub">{storeName}</span>
               <span className="crumb-divider">/</span>
               <strong className="crumb-curr">{activeTab}</strong>
             </div>
@@ -300,9 +309,10 @@ export default function Dashboard() {
               type="button"
               className="header-btn-share"
               onClick={() => setShowGrowModal(true)}
+              title="Grow Storefront"
             >
               <Share2 size={13} />
-              <span>Grow Storefront</span>
+              <span className="btn-label-text">Grow Storefront</span>
             </button>
 
             <a
@@ -310,8 +320,10 @@ export default function Dashboard() {
               target="_blank"
               rel="noopener noreferrer"
               className="header-btn-view"
+              title="View Storefront"
             >
-              <Eye size={14} /> View Storefront
+              <Eye size={14} />
+              <span className="btn-label-text">View Storefront</span>
             </a>
           </div>
         </header>
